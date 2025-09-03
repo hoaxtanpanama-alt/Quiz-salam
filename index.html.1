@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login & Dashboard Kuis</title>
+<style>
+/* Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", sans-serif;
+    height: 100%;
+    background: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+}
+
+/* Overlay gelap */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: -1;
+}
+
+/* Halaman Login */
+#loginPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.login-container {
+    background: rgba(20,20,20,0.9);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+    text-align: center;
+    width: 320px;
+    animation: fadeIn 1s ease;
+}
+
+.login-container h1 {
+    margin-bottom: 25px;
+    color: #1e90ff;
+    text-transform: uppercase;
+}
+
+.login-container input {
+    width: 100%; padding: 12px; margin: 12px 0;
+    border-radius: 8px; border: none;
+    background: #2b2b2b; color: #fff;
+}
+
+.login-container input:focus {
+    outline: 2px solid #1e90ff;
+}
+
+.login-container button {
+    width: 100%; padding: 12px; border: none;
+    background: #1e90ff; color: #fff; font-size: 16px;
+    border-radius: 8px; cursor: pointer; transition: all 0.3s;
+}
+
+.login-container button:hover {
+    background: #0073e6;
+    transform: translateY(-2px);
+}
+
+#message {
+    margin-top: 15px; font-size: 14px;
+    opacity: 0; transition: opacity 0.5s ease;
+}
+.show { opacity: 1; }
+
+.toggle-password {
+    margin-top: -10px; margin-bottom: 10px;
+    font-size: 12px; cursor: pointer;
+    color: #1e90ff; display: block; text-align: right;
+}
+
+/* Dashboard */
+#dashboardPage {
+    display: none;
+    padding: 20px;
+    min-height: 100vh;
+    background: rgba(0,0,0,0.85);
+}
+
+#dashboardPage h1 {
+    color: #1e90ff;
+    text-shadow: 0 0 5px #000;
+}
+
+#logoutBtn {
+    padding: 10px 20px;
+    background: #ff4d4d; color: #fff;
+    border: none; border-radius: 8px; cursor: pointer;
+    margin-top: 20px;
+}
+
+#logoutBtn:hover { background: #e60000; }
+
+.question {
+    margin: 15px 0;
+    text-align: left;
+}
+
+.question label { color: #ddd; }
+
+.question input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: none;
+    background: #2b2b2b;
+    color: #fff;
+}
+
+#submitQuiz {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #1e90ff; color: #fff;
+    border: none; border-radius: 8px; cursor: pointer;
+}
+
+#submitQuiz:hover { background: #0073e6; }
+
+#result {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #fff;
+}
+
+/* Scoreboard */
+#scoreboard {
+    margin-top: 30px;
+    padding: 15px;
+    background: rgba(30,30,30,0.8);
+    border-radius: 10px;
+}
+#scoreboard h2 { color: #1e90ff; }
+#scoreList { list-style: none; padding: 0; }
+#scoreList li {
+    background: #2b2b2b;
+    margin: 5px 0; padding: 8px;
+    border-radius: 5px;
+}
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(-20px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+</style>
+</head>
+<body>
+
+<!-- Halaman Login -->
+<div id="loginPage">
+    <div class="login-container">
+        <h1>LOGIN</h1>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <span class="toggle-password" id="togglePassword">Tampilkan Password</span>
+            <button type="submit">Masuk</button>
+        </form>
+        <p id="message"></p>
+    </div>
+</div>
+
+<!-- Halaman Dashboard Kuis -->
+<div id="dashboardPage">
+    <h1>Aku Sayang Sama Salam 💪</h1>
+    <form id="quizForm">
+        <!-- 10 Soal -->
+        <div class="question"><label>1. Apa warna favorit Salam?</label><input type="text" name="q1"></div>
+        <div class="question"><label>2. Hewan kesayangan Salam?</label><input type="text" name="q2"></div>
+        <div class="question"><label>3. Makanan favorit Salam?</label><input type="text" name="q3"></div>
+        <div class="question"><label>4. Hobi Salam?</label><input type="text" name="q4"></div>
+        <div class="question"><label>5. Film favorit Salam?</label><input type="text" name="q5"></div>
+        <div class="question"><label>6. Kota favorit Salam?</label><input type="text" name="q6"></div>
+        <div class="question"><label>7. Warna pakaian favorit Salam?</label><input type="text" name="q7"></div>
+        <div class="question"><label>8. Salam suka olahraga apa?</label><input type="text" name="q8"></div>
+        <div class="question"><label>9. Musik favorit Salam?</label><input type="text" name="q9"></div>
+        <div class="question"><label>10. Salam ingin liburan ke mana?</label><input type="text" name="q10"></div>
+        <button type="submit" id="submitQuiz">Submit Jawaban</button>
+    </form>
+    <p id="result"></p>
+
+    <!-- Scoreboard -->
+    <div id="scoreboard">
+        <h2>Papan Skor</h2>
+        <ul id="scoreList"></ul>
+    </div>
+
+    <button id="logoutBtn">Logout</button>
+</div>
+
+<script>
+// Variabel
+const loginPage = document.getElementById('loginPage');
+const dashboardPage = document.getElementById('dashboardPage');
+const form = document.getElementById('loginForm');
+const message = document.getElementById('message');
+const toggle = document.getElementById('togglePassword');
+const password = document.getElementById('password');
+const logoutBtn = document.getElementById('logoutBtn');
+const scoreList = document.getElementById('scoreList');
+
+// Toggle password
+toggle.addEventListener('click', () => {
+    if(password.type === "password"){
+        password.type = "text";
+        toggle.textContent = "Sembunyikan Password";
+    } else {
+        password.type = "password";
+        toggle.textContent = "Tampilkan Password";
+    }
+});
+
+// Login
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const passwordValue = password.value;
+
+    message.classList.remove('show');
+    setTimeout(() => {
+        if(username === "admin" && passwordValue === "12345") {
+            message.style.color = "lightgreen";
+            message.textContent = "Login berhasil!";
+            message.classList.add('show');
+            setTimeout(() => {
+                loginPage.style.display = "none";
+                dashboardPage.style.display = "block";
+            }, 1000);
+        } else {
+            message.style.color = "red";
+            message.textContent = "Username atau password salah!";
+            message.classList.add('show');
+        }
+    }, 100);
+});
+
+// Logout
+logoutBtn.addEventListener('click', () => {
+    dashboardPage.style.display = "none";
+    loginPage.style.display = "flex";
+    form.reset();
+    message.textContent = "";
+});
+
+// Kuis
+const quizForm = document.getElementById('quizForm');
+const result = document.getElementById('result');
+
+// Jawaban benar (ubah sesuai fakta Salam)
+const answers = {
+    q1: "hitam",
+    q2: "kucing",
+    q3: "nasi goreng",
+    q4: "olahraga",
+    q5: "action",
+    q6: "batang",
+    q7: "hitam",
+    q8: "futsal",
+    q9: "pop",
+    q10: "jepang"
+};
+
+quizForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    let score = 0;
+    const formData = new FormData(quizForm);
+    for (let [key, value] of formData.entries()) {
+        if(value.trim().toLowerCase() === answers[key].toLowerCase()){
+            score++;
+        }
+    }
+    result.textContent = `Kamu menjawab ${score} dari 10 pertanyaan dengan benar! 💪`;
+
+    // Tambah ke papan skor
+    const li = document.createElement("li");
+    li.textContent = `Skor: ${score}/10 (${new Date().toLocaleTimeString()})`;
+    scoreList.appendChild(li);
+
+    quizForm.reset();
+});
+</script>
+</body>
+</html>
